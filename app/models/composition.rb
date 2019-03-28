@@ -1,4 +1,5 @@
 class Composition < ApplicationRecord
   belongs_to :user
-  has_many :tracks
+  has_many :notes
+  has_many :positions, through: :notes
 end
