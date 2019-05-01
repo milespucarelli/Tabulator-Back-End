@@ -16,16 +16,18 @@ class Api::V1::CompositionsController < ApplicationController
   def show
     @composition = Composition.find(params[:id])
     render json: { composition: @composition },
+           include: %i[notes positions],
            status: :created
   end
 
   def update
-    @notes = Note.where("composition_id = #{params[:id]}")
-    tab_notes = params[:composition][:tabNotes]
+    composition = Composition.find(params[:id])
+    @notes = composition.notes
+    tab_notes = save_params[:tabNotes]
+    puts tab_notes
     @notes.each_with_index do |note, note_index|
-      puts note_index
+      new_note = tab_notes[note_index]
       note.positions.each_with_index do |position, position_index|
-        new_note = tab_notes[note_index]
         new_positions = new_note[:positions]
         new_position = new_positions[position_index]
         Position.update(position.id,
@@ -35,6 +37,10 @@ class Api::V1::CompositionsController < ApplicationController
       Note.update(note.id, duration: tab_notes[note_index][:duration])
     end
 
+    @notes.each do |note|
+      note.positions.each { |position| puts "#{position.str} #{position.fret}" }
+    end
+
     render json: { composition: @composition },
            status: :created
   end
@@ -42,6 +48,10 @@ class Api::V1::CompositionsController < ApplicationController
   private
 
   def composition_params
-    params.require(:composition).permit(:title, :artist, :user_id, :tabNotes)
+    params.require(:composition).permit(:title, :artist, :user_id)
+  end
+
+  def save_params
+    params.require(:composition).permit(tabNotes: [{ positions: %i[str fret] }, :duration])
   end
 end

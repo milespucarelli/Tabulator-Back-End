@@ -20,7 +20,7 @@ gem 'jwt'
 
 gem 'faker', git: 'https://github.com/stympy/faker.git', branch: 'master'
 
-gem "active_model_serializers"
+gem 'active_model_serializers'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

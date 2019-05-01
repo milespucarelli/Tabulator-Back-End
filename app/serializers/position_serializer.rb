@@ -1,3 +1,5 @@
 class PositionSerializer < ActiveModel::Serializer
-  attributes :id, :str, :fret, :note_id
+  attributes :id, :str, :fret
+
+  belongs_to :note
 end
