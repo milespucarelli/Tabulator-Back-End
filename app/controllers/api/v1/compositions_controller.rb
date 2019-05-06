@@ -21,8 +21,8 @@ class Api::V1::CompositionsController < ApplicationController
   end
 
   def update
-    composition = Composition.find(params[:id])
-    @notes = composition.notes
+    @composition = Composition.find(params[:id])
+    @notes = @composition.notes.sort_by(&:id)
     tab_notes = save_params[:tabNotes]
     puts tab_notes
     @notes.each_with_index do |note, note_index|
@@ -37,11 +37,10 @@ class Api::V1::CompositionsController < ApplicationController
       Note.update(note.id, duration: tab_notes[note_index][:duration])
     end
 
-    @notes.each do |note|
-      note.positions.each { |position| puts "#{position.str} #{position.fret}" }
-    end
+    @composition = Composition.find(params[:id])
 
     render json: { composition: @composition },
+           include: %i[notes positions],
            status: :created
   end
 
