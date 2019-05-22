@@ -1,7 +1,7 @@
-# README
+# Tabulator API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a Back-End API built with Ruby on Rails for Tabulator, an open-source, free-to-use guitar tablature editor and music scoring
+software that plays your compositions back for you!
 
 Things you may want to cover:
 
