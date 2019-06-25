@@ -6,11 +6,11 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 User.create(
-  username: 'lord.zucc',
-  email: 'zucc666@facebook.com',
-  image: 'https://scontent-lga3-1.cdninstagram.com/vp/1043a5e5ce2f34e20a2c86c1c035b59a/5D4EFF5D/t51.2885-19/s150x150/42672345_358401964902367_800013778585387008_n.jpg?_nc_ht=scontent-lga3-1.cdninstagram.com',
+  username: 'miles.of.code',
+  email: 'miles.pucarelli@gmail.com',
+  image: 'https://media.licdn.com/dms/image/C4D03AQF1go_DzUJHzw/profile-displayphoto-shrink_200_200/0?e=1567036800&v=beta&t=4N-zq2kD_9Hdeb1eYY03K1zYpGipFtkFh_U6zbfGxww',
   password: '1234',
-  bio: 'Definitely not a lizard person from Mars who feeds on data'
+  bio: 'Creator of Tabulator. Plays drums in two bands and guitar in another. Always looking to collaborate.'
 )
 
 10.times do
