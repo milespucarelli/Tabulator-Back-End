@@ -4,7 +4,7 @@ class Api::V1::CompositionsController < ApplicationController
   def create
     @composition = Composition.create(composition_params)
 
-    36.times do
+    32.times do
       note = Note.create(duration: 'qr', composition_id: @composition.id)
       Position.create(str: 0, fret: '', note_id: note.id)
     end
