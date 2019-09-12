@@ -3,6 +3,7 @@ class Api::V1::CompositionsController < ApplicationController
 
   def create
     @composition = Composition.create(composition_params)
+    @composition = Composition.update(@composition.id, tempo: 120)
 
     32.times do
       note = Note.create(duration: 'qr', composition_id: @composition.id)
@@ -24,7 +25,6 @@ class Api::V1::CompositionsController < ApplicationController
     @composition = Composition.find(params[:id])
     @notes = @composition.notes.sort_by(&:id)
     tab_notes = save_params[:tabNotes]
-    puts tab_notes
     @notes.each_with_index do |note, note_index|
       new_note = tab_notes[note_index]
       note.positions.each_with_index do |position, position_index|
@@ -36,6 +36,8 @@ class Api::V1::CompositionsController < ApplicationController
       end
       Note.update(note.id, duration: tab_notes[note_index][:duration])
     end
+
+    Composition.update(params[:id], tempo: save_params[:tempo].to_i)
 
     @composition = Composition.find(params[:id])
 
@@ -51,6 +53,6 @@ class Api::V1::CompositionsController < ApplicationController
   end
 
   def save_params
-    params.require(:composition).permit(tabNotes: [{ positions: %i[str fret] }, :duration])
+    params.require(:composition).permit(:tempo, tabNotes: [{ positions: %i[str fret] }, :duration])
   end
 end
