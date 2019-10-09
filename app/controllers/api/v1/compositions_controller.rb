@@ -27,12 +27,38 @@ class Api::V1::CompositionsController < ApplicationController
     tab_notes = save_params[:tabNotes]
     @notes.each_with_index do |note, note_index|
       new_note = tab_notes[note_index]
-      note.positions.each_with_index do |position, position_index|
-        new_positions = new_note[:positions]
-        new_position = new_positions[position_index]
-        Position.update(position.id,
-                        str: new_position[:str],
-                        fret: new_position[:fret])
+      index = 0
+      if note.positions.length >= new_note[:positions].length
+        while index < new_note[:positions].length
+          new_positions = new_note[:positions]
+          new_position = new_positions[index]
+          Position.update(note.positions[index].id,
+                          str: new_position[:str],
+                          fret: new_position[:fret])
+          index += 1
+        end
+
+        while index < note.positions.length
+          Position.delete(note.positions[index].id)
+          index += 1
+        end
+      else
+        while index < note.positions.length
+          new_positions = new_note[:positions]
+          new_position = new_positions[index]
+          Position.update(note.positions[index].id,
+                          str: new_position[:str],
+                          fret: new_position[:fret])
+          index += 1
+        end
+
+        while index < new_note[:positions].length
+          new_position = new_note[:positions][index]
+          Position.create(str: new_position[:str],
+                          fret: new_position[:fret],
+                          note_id: note.id)
+          index += 1
+        end
       end
       Note.update(note.id, duration: tab_notes[note_index][:duration])
     end
